@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BachatToolShare - Localized Civic Tool Exchange</title>
+    <!-- Tailwind CSS CDN for elegant modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d9488', // Teal-600
+                        primarydark: '#0f766e', // Teal-700
+                        secondary: '#f59e0b', // Amber-500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font Family -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Smooth page transitions */
+        .page-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        /* Hide scrollbars but preserve functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo & Team Name -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center text-white shadow-md shadow-teal-100">
+                        <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-tight">BachatTool<span class="text-primary">Share</span></span>
+                        <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase block -mt-0.5">By The Reformers</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button id="nav-home" onclick="navigateTo('home')" class="px-4 py-2 rounded-xl text-sm font-semibold text-primary bg-teal-50/70 transition flex items-center gap-2">
+                        <i class="fa-solid fa-house"></i> Home
+                    </button>
+                    <button id="nav-browse" onclick="navigateTo('browse')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Browse Tools
+                    </button>
+                    <button id="nav-list" onclick="navigateTo('list')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> List your Tool
+                    </button>
+                    <button id="nav-dashboard" onclick="navigateTo('dashboard')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2 relative">
+                        <i class="fa-solid fa-chart-pie"></i> Activity Center
+                        <span id="booking-notif-dot" class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full hidden"></span>
+                    </button>
+                    <button id="nav-chat" onclick="navigateTo('chat')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i> Local Chat
+                    </button>
+                    <button id="nav-team" onclick="navigateTo('team')" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2">
+                        <i class="fa-solid fa-people-group"></i> Our Team
+                    </button>
+                </nav>
+
+                <!-- Current Active Neighborhood Zone Display -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-slate-100 hover:bg-slate-200 transition py-1.5 px-3 rounded-full flex items-center space-x-2 cursor-pointer text-xs font-semibold text-slate-700">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Gulshan-e-Iqbal Zone</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-2 px-4 flex justify-around items-center z-40 shadow-lg">
+        <button onclick="navigateTo('home')" class="flex flex-col items-center space-y-0.5 text-slate-600 hover:text-primary">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-semibold">Home</span>
+        </button>
+        <button onclick="navigateTo('browse')" class="flex flex-col items-center space-y-0.5 text-slate-600 hover:text-primary">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            <span class="text-[10px] font-semibold">Browse</span>
+        </button>
+        <button onclick="navigateTo('list')" class="flex flex-col items-center space-y-0.5 text-slate-600 hover:text-primary">
+            <i class="fa-solid fa-plus text-lg"></i>
+            <span class="text-[10px] font-semibold">List</span>
+        </button>
+        <button onclick="navigateTo('dashboard')" class="flex flex-col items-center space-y-0.5 text-slate-600 hover:text-primary">
+            <i class="fa-solid fa-chart-pie text-lg"></i>
+            <span class="text-[10px] font-semibold">Activity</span>
+        </button>
+        <button onclick="navigateTo('team')" class="flex flex-col items-center space-y-0.5 text-slate-600 hover:text-primary">
+            <i class="fa-solid fa-people-group text-lg"></i>
+            <span class="text-[10px] font-semibold">Team</span>
+        </button>
+    </div>
+
+    <!-- MAIN BODY SPACE CONTROLLING ALL SUB-PAGES -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-16 md:mb-0">
+
+        <section id="page-home" class="page-transition space-y-12">
+            <!-- Hero Interactive Banner -->
+            <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-8 md:p-14 text-white shadow-xl relative overflow-hidden border border-slate-800">
+                <div class="max-w-2xl space-y-6 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs uppercase tracking-wider font-bold px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-globe animate-spin-slow"></i> Civic Innovation Project
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black leading-tight tracking-tight">
+                        Powering Your Neighborhood's <span class="text-teal-400">Shared Library</span> of Tools
+                    </h1>
+                    <p class="text-slate-300 text-base md:text-lg font-medium leading-relaxed">
+                        Don't spend thousands on tools you'll only use once. BachatToolShare allows neighbors to safely borrow, lend, and monetize lawnmowers, drill sets, ladders, and car jacks locally.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="navigateTo('browse')" class="bg-primary hover:bg-primarydark text-white font-bold px-7 py-4 rounded-2xl transition duration-150 transform hover:-translate-y-0.5 shadow-lg shadow-teal-900/30 flex items-center gap-3">
+                            <i class="fa-solid fa-search"></i> Find a Tool Near You
+                        </button>
+                        <button onclick="navigateTo('list')" class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-bold px-7 py-4 rounded-2xl transition duration-150">
+                            Lend a Spare Tool
+                        </button>
+                    </div>
+                </div>
+                <!-- Abstract visual graphic overlay -->
+                <div class="absolute right-0 bottom-0 top-0 w-1/3 hidden lg:flex items-center justify-center opacity-10">
+                    <i class="fa-solid fa-gears text-[280px]"></i>
+                </div>
+            </div>
+
+            <!-- Regional Impact Stats Section -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs space-y-2">
+                    <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Total Active Tools</div>
+                    <div class="text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+                        <span id="stat-tools-count">24</span>
+                        <span class="text-xs font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md"><i class="fa-solid fa-arrow-up"></i> 12%</span>
+                    </div>
+                    <div class="text-xs text-slate-500">Available in your 2km radius circle</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs space-y-2">
+                    <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Community Savings</div>
+                    <div class="text-3xl font-extrabold text-slate-900">PKR 48,500</div>
+                    <div class="text-xs text-slate-500">Calculated value from shared tool instances</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs space-y-2">
+                    <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider">CO2 Emissions Saved</div>
+                    <div class="text-3xl font-extrabold text-emerald-600">82.4 kg</div>
+                    <div class="text-xs text-slate-500">Prevented from manufactured product demand</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs space-y-2">
+                    <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Community Trust Score</div>
+                    <div class="text-3xl font-extrabold text-slate-900 flex items-center gap-1">
+                        <span>4.95</span>
+                        <i class="fa-solid fa-star text-amber-400 text-base"></i>
+                    </div>
+                    <div class="text-xs text-slate-500">Based on 120 verified peer handovers</div>
+                </div>
+            </div>
+
+            <!-- Strategic Civic Features Section -->
+            <div class="space-y-6">
+                <div class="text-center md:text-left space-y-1">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">The Power of Neighborhood Collaboration</h2>
+                    <p class="text-slate-500 max-w-xl">BachatShare turns wasteful micro-purchases into secure, recurring green neighborhood interactions.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-2xs space-y-4 hover:shadow-xs transition">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 class="font-bold text-lg text-slate-900">Verified Local Profiles</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Safety is our number one goal. Everyone registering tools must verify their identity and locality matching, safeguarding items and people.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-2xs space-y-4 hover:shadow-xs transition">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <h3 class="font-bold text-lg text-slate-900">Zero-Rent Option Available</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Choose whether you want to charge a tiny hourly/daily maintenance fee or list your tool as absolutely free for neighborhood social benefit.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-2xs space-y-4 hover:shadow-xs transition">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl"><i class="fa-solid fa-seedling"></i></div>
+                        <h3 class="font-bold text-lg text-slate-900">Reduced Urban Footprint</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">By reducing the need for every household to buy items that sit idle 95% of the year, we eliminate packaging waste, mining, and shipping pollution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-browse" class="page-transition hidden space-y-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-4 border-b border-slate-100">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Explore Shared Tools Library</h2>
+                    <p class="text-slate-500 text-sm mt-1">Book items with nearby neighbors directly. Zero hassle pick-ups.</p>
+                </div>
+
+                <!-- Searching, Filtering & Category Selection Controls -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="tool-search" oninput="applyFilters()" placeholder="Search tools (e.g. Drill)..." class="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <select id="filter-category" onchange="applyFilters()" class="bg-white border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="All">All Categories</option>
+                        <option value="Power Tools">Power Tools</option>
+                        <option value="Hand Tools">Hand Tools</option>
+                        <option value="Gardening & Yard">Gardening & Yard</option>
+                        <option value="Ladders & Painting">Ladders & Painting</option>
+                        <option value="Automotive Tools">Automotive Tools</option>
+                    </select>
+                    <select id="filter-availability" onchange="applyFilters()" class="bg-white border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="All">Any Status</option>
+                        <option value="Available">Available Now</option>
+                        <option value="Free">Free to Borrow (PKR 0)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dynamic Tool Output Grid List -->
+            <div id="tools-grid-list" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Javascript populates database rows here dynamically -->
+            </div>
+        </section>
+
+        <section id="page-list" class="page-transition hidden space-y-8">
+            <div class="max-w-3xl mx-auto text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900">List Your Tool with the Community</h2>
+                <p class="text-slate-500 max-w-md mx-auto">Upload details of your idle garage or pantry tools to let verified neighbors borrow them easily.</p>
+            </div>
+
+            <!-- Split View: Interactive Creation Form (Left) & Live Simulated Preview Card (Right) -->
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <form id="listing-form" onsubmit="createNewListing(event)" class="space-y-5">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tool Name</label>
+                                <input type="text" id="form-tool-name" oninput="updateLivePreview()" required placeholder="e.g. DeWalt Cordless Drill" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Category</label>
+                                <select id="form-tool-category" onchange="updateLivePreview()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="Power Tools">Power Tools</option>
+                                    <option value="Hand Tools">Hand Tools</option>
+                                    <option value="Gardening & Yard">Gardening & Yard</option>
+                                    <option value="Ladders & Painting">Ladders & Painting</option>
+                                    <option value="Automotive Tools">Automotive Tools</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Rental Price (PKR / Day)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-bold">PKR</span>
+                                    <input type="number" id="form-tool-price" oninput="updateLivePreview()" required placeholder="e.g. 250" class="w-full pl-14 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                </div>
+                                <span class="text-[10px] text-slate-400 mt-1 block">Set as "0" to list as a fully free tool share.</span>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Location Zone</label>
+                                <input type="text" id="form-tool-location" oninput="updateLivePreview()" required value="Gulshan Block 4" placeholder="e.g. Gulshan Block 4" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Visual Image Option</label>
+                            <select id="form-tool-image" onchange="updateLivePreview()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                                <option value="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400">Default Power Drill</option>
+                                <option value="https://images.unsplash.com/photo-1601058268499-e52658b8bb88?w=400">Aluminum Ladder</option>
+                                <option value="https://images.unsplash.com/photo-1592417817098-8f3d6eb18865?w=400">Gardening Pruners / Cutters</option>
+                                <option value="https://images.unsplash.com/photo-1608613304899-ea8098577e38?w=400">Socket Mechanics Kit</option>
+                                <option value="https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=400">Pressure Washer Machine</option>
+                                <option value="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400">Lawn Mower Gear</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Short Description & Rules</label>
+                            <textarea id="form-tool-desc" oninput="updateLivePreview()" rows="3" required placeholder="Describe tool conditions, specific batteries included, or instructions..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary hover:bg-primarydark text-white font-bold py-3.5 rounded-2xl transition duration-150 shadow-lg shadow-teal-500/10">
+                            Publish Listing to Local Marketplace
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Live Card Preview display container on desktop sizes -->
+                <div class="lg:col-span-5 bg-slate-100 p-6 rounded-3xl border border-dashed border-slate-200 space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Live Real-Time Preview Card
+                    </span>
+                    <div id="live-preview-container" class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+                        <!-- Dynamic JS injection creates preview inside here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-dashboard" class="page-transition hidden space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Your Activity Center</h2>
+                    <p class="text-slate-500 text-sm mt-1">Manage active rental periods, items you lend out, and rewards.</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-emerald-50 text-emerald-800 py-2 px-4 rounded-xl border border-emerald-100">
+                    <i class="fa-solid fa-award text-lg text-emerald-600"></i>
+                    <div>
+                        <p class="text-xs text-slate-500 font-bold uppercase leading-none">Your Rank</p>
+                        <p class="text-sm font-black text-slate-900 mt-0.5">Green Citizen Level 2</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Split Panel tabs system -->
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Left Hand Panels (Rental lists) -->
+                <div class="lg:col-span-8 space-y-8">
+                    <!-- Borrowing Panel -->
+                    <div class="bg-white rounded-3xl border border-slate-100 shadow-xs overflow-hidden">
+                        <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                            <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-hand-holding-hand text-teal-600"></i> Active Tools Borrowed
+                            </h3>
+                            <span id="borrow-count" class="bg-teal-100 text-teal-800 text-xs px-2.5 py-1 rounded-full font-bold">1 Active</span>
+                        </div>
+                        <div id="borrowed-items-list" class="divide-y divide-slate-100">
+                            <!-- Dynamic injections -->
+                        </div>
+                    </div>
+
+                    <!-- Lending Requests & Listed tools Panel -->
+                    <div class="bg-white rounded-3xl border border-slate-100 shadow-xs overflow-hidden">
+                        <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                            <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-box-open text-primary"></i> Tools You are Lending
+                            </h3>
+                            <span id="lend-count" class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-full font-bold">2 Listed</span>
+                        </div>
+                        <div id="lending-items-list" class="divide-y divide-slate-100">
+                            <!-- Dynamic list rendering -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hand Panel (Badges, Gamified Achievements, Level) -->
+                <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-slate-100 shadow-xs space-y-6">
+                    <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2 border-b border-slate-100 pb-4">
+                        <i class="fa-solid fa-trophy text-amber-500"></i> Reformer Achievements
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3.5 p-3 rounded-2xl bg-teal-50/50 border border-teal-50">
+                            <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-black"><i class="fa-solid fa-people-carry-box"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-900">Neighborhood Hero</h4>
+                                <p class="text-[10px] text-slate-500">Lended your first 5 garage tools successfully</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3.5 p-3 rounded-2xl bg-amber-50/50 border border-amber-50">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-black"><i class="fa-solid fa-leaf"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-900">Green Thumb</h4>
+                                <p class="text-[10px] text-slate-500">Kept a shared tool in circulation for over a month</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3.5 p-3 rounded-2xl bg-slate-50 border border-slate-100 opacity-60">
+                            <div class="w-10 h-10 rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center font-black"><i class="fa-solid fa-medal"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-400">Zero-Waste Champion (Locked)</h4>
+                                <p class="text-[10px] text-slate-400">Attain a perfect 5.0 rating on 25 peer-to-peer exchanges</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-chat" class="page-transition hidden space-y-8">
+            <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden grid lg:grid-cols-12 min-h-[500px]">
+                
+                <!-- Left Chat Sidebar: Users list -->
+                <div class="lg:col-span-4 border-r border-slate-100 flex flex-col">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Neighborhood Chats</span>
+                    </div>
+                    <div class="flex-grow overflow-y-auto divide-y divide-slate-100 no-scrollbar">
+                        <button onclick="setActiveChat('Muneeba')" class="w-full p-4 flex items-center space-x-3 hover:bg-slate-50 text-left bg-teal-50/30">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 font-extrabold flex items-center justify-center text-sm">MU</div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-sm text-slate-900">Muneeba Umair</span>
+                                    <span class="text-[10px] text-slate-400">Live now</span>
+                                </div>
+                                <p class="text-xs text-slate-500 truncate mt-0.5">Where should we meet for the pickup?</p>
+                            </div>
+                        </button>
+                        <button onclick="setActiveChat('Sami')" class="w-full p-4 flex items-center space-x-3 hover:bg-slate-50 text-left">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-sm">MS</div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-sm text-slate-900">Muhammad Sami</span>
+                                    <span class="text-[10px] text-slate-400">1h ago</span>
+                                </div>
+                                <p class="text-xs text-slate-500 truncate mt-0.5">The socket wrench is all set, ready whenever you are.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Chat Windows -->
+                <div class="lg:col-span-8 flex flex-col bg-slate-50/30">
+                    <div class="p-4 border-b border-slate-100 bg-white flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <div id="chat-header-avatar" class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 font-extrabold flex items-center justify-center text-sm">MU</div>
+                            <div>
+                                <span id="chat-header-name" class="font-bold text-sm text-slate-900">Muneeba Umair</span>
+                                <span class="text-[10px] text-emerald-500 font-bold block"><i class="fa-solid fa-circle animate-pulse text-[8px] mr-1"></i> Active Community Member</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Log display -->
+                    <div id="chat-messages-container" class="flex-grow p-4 space-y-4 overflow-y-auto h-[350px]">
+                        <!-- Populated dynamically inside JS -->
+                    </div>
+
+                    <!-- Input chat bottom console -->
+                    <form onsubmit="submitChatMessage(event)" class="p-4 bg-white border-t border-slate-100 flex gap-2">
+                        <input type="text" id="chat-input-text" required placeholder="Type a friendly local pickup message..." class="flex-grow px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <button type="submit" class="bg-primary hover:bg-primarydark text-white px-5 py-2.5 rounded-xl transition font-bold text-sm flex items-center gap-2">
+                            Send <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-team" class="page-transition hidden space-y-12">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <div class="inline-flex items-center gap-1.5 bg-teal-50 text-teal-700 text-xs uppercase tracking-wider font-bold px-3 py-1 rounded-full border border-teal-100">
+                    Engineering Civic Engagement
+                </div>
+                <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">The Reformers</h2>
+                <p class="text-slate-500 leading-relaxed text-sm md:text-base">
+                    This interactive local-host web portal represents a joint effort designed to solve civic division, resource inflation, and excessive neighborhood material waste in Pakistan.
+                </p>
+            </div>
+
+            <!-- Dynamic Team Showcase Grid -->
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                
+                <!-- Card Member 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-500 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-teal-100">
+                        FY
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Fatima Yaseen</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Lead Architect & Strategy</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Structuring our technical roadmap to deliver real neighborhood support."</div>
+                </div>
+
+                <!-- Card Member 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-teal-100">
+                        IQ
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Ifra Qazi</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Civic Engagement Director</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Refining our user experiences for families and community elders alike."</div>
+                </div>
+
+                <!-- Card Member 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-700 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-teal-100">
+                        ST
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Sajjal Taswer</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Full-Stack Engineer</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Constructing database flows and keeping listing information real-time."</div>
+                </div>
+
+                <!-- Card Member 4 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-800 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-teal-100">
+                        AF
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Agha Faez Haider</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Core Developer</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Working on localized mapping algorithms and asset storage logic."</div>
+                </div>
+
+                <!-- Card Member 5 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-emerald-100">
+                        QB
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Qasim Sabir Butt</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Quality Assurance Lead</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Ensuring security parameters check out and verification lists align."</div>
+                </div>
+
+                <!-- Card Member 6 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center space-y-4 hover:shadow-xs transition duration-150">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl mx-auto shadow-md shadow-emerald-100">
+                        AB
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900">Abaan</h3>
+                        <p class="text-xs text-primary font-semibold mt-1">Marketing Lead</p>
+                    </div>
+                    <div class="text-xs text-slate-400">"Coordinating outreach to local housing societies and storage associations."</div>
+                </div>
+
+                <!-- Strategic empty card encouraging joining the initiative -->
+                <div class="bg-gradient-to-br from-teal-50 to-emerald-50/50 p-6 rounded-3xl border border-dashed border-teal-200 text-center flex flex-col justify-center items-center space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center text-sm"><i class="fa-solid fa-plus"></i></div>
+                    <h3 class="font-extrabold text-sm text-slate-900">Join "The Reformers"</h3>
+                    <p class="text-xs text-slate-500">Become a district coordinator or open-source contributor today.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="booking-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden transform scale-95 transition-all duration-200" id="modal-content">
+            <div id="modal-image" class="h-48 bg-slate-200 bg-cover bg-center relative">
+                <button onclick="closeBookingModal()" class="absolute top-4 right-4 bg-white/85 hover:bg-white text-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div>
+                    <span id="modal-category" class="bg-teal-50 text-teal-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Power Tool</span>
+                    <h3 id="modal-title" class="font-extrabold text-xl text-slate-900 mt-1">Bosch Masonry Drill</h3>
+                    <div class="flex items-center gap-4 text-xs text-slate-500 mt-1">
+                        <span><i class="fa-solid fa-user text-slate-400 mr-1"></i> Owner: <span id="modal-owner" class="font-bold">Muneeba Umair</span></span>
+                        <span><i class="fa-solid fa-location-dot text-teal-500 mr-1"></i> <span id="modal-location">Block 4</span></span>
+                    </div>
+                </div>
+
+                <p id="modal-desc" class="text-xs text-slate-600 leading-relaxed">
+                    Reliable concrete drill, works perfectly for heavy renovations.
+                </p>
+
+                <!-- Simulated Booking Duration Selector -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">How many days do you need this?</label>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeModalDays(-1)" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-lg text-slate-700 transition flex items-center justify-center">-</button>
+                        <span id="modal-days-count" class="text-base font-extrabold text-slate-900 w-8 text-center">1</span>
+                        <button onclick="changeModalDays(1)" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-lg text-slate-700 transition flex items-center justify-center">+</button>
+                        <span class="text-xs text-slate-400 font-medium ml-2">Days selected</span>
+                    </div>
+                </div>
+
+                <!-- Rent Total Overview Banner -->
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Estimated Contribution</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Includes minimal maintenance fee</p>
+                    </div>
+                    <p class="text-xl font-extrabold text-slate-900" id="modal-total-price">PKR 250</p>
+                </div>
+
+                <button id="modal-submit-btn" onclick="executeBorrow()" class="w-full bg-primary hover:bg-primarydark text-white font-bold py-3.5 rounded-2xl transition duration-150 shadow-lg shadow-teal-500/15 flex items-center justify-center gap-2">
+                    Request Borrow Window <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-3 pointer-events-none max-w-sm w-full">
+        <!-- Toast elements dynamically injected inside JS to comply with no-alert protocol -->
+    </div>
+
+    <!-- Footer System section -->
+    <footer class="bg-white border-t border-slate-100 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+            <div class="text-left space-y-1">
+                <span class="text-sm font-extrabold text-slate-800">BachatToolShare Network</span>
+                <p class="text-xs text-slate-400">Created collaboratively by <span class="font-bold text-slate-600">The Reformers</span> project team.</p>
+            </div>
+            <div class="text-xs text-slate-400 font-medium">
+                © 2026 BachatToolShare. Built for Community Development & Green Neighborhood Initiatives.
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE ENGINE JS LOGIC -->
+    <script>
+        const APP_STATE = {
+            activePage: 'home',
+            currentUser: {
+                name: 'Aahil Amin',
+                reputation: '4.95',
+                zone: 'Gulshan Block 4',
+                points: 120
+            },
+            tools: [
+                {
+                    id: 1,
+                    name: "Bosch Professional Hammer Drill",
+                    category: "Power Tools",
+                    price: 300,
+                    owner: "Muneeba Umair",
+                    location: "Gulshan Block 2",
+                    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400",
+                    desc: "Industrial grade hammer drill. Includes robust chuck key and basic drill bit selector toolkit. Operates smoothly on domestic wall points.",
+                    available: true
+                },
+                {
+                    id: 2,
+                    name: "12-Foot Extendable Aluminum Ladder",
+                    category: "Ladders & Painting",
+                    price: 150,
+                    owner: "Muhammad Sami",
+                    location: "Gulshan Block 4",
+                    image: "https://images.unsplash.com/photo-1601058268499-e52658b8bb88?w=400",
+                    desc: "Extremely secure lock steps. Fits easily on small car top racks for manual hauling. Ideal for painting walls or trimming ceiling light assemblies.",
+                    available: true
+                },
+                {
+                    id: 3,
+                    name: "Lawn Shrub Pruners & Cutters Set",
+                    category: "Gardening & Yard",
+                    price: 0,
+                    owner: "Munawar Fatima",
+                    location: "Gulshan Block 3",
+                    image: "https://images.unsplash.com/photo-1592417817098-8f3d6eb18865?w=400",
+                    desc: "Free to borrow for our local green projects. Includes clean bypass pruner with ergonomic grip. Please clean properly after use.",
+                    available: true
+                },
+                {
+                    id: 4,
+                    name: "Complete Socket Wrench Mechanics Kit",
+                    category: "Automotive Tools",
+                    price: 200,
+                    owner: "Muhammad Hammad Khan",
+                    location: "Gulshan Block 1",
+                    image: "https://images.unsplash.com/photo-1608613304899-ea8098577e38?w=400",
+                    desc: "42 pieces standard mechanics socket collection. Perfect for minor bike tuning, bolt adjustments, and household fixtures.",
+                    available: true
+                },
+                {
+                    id: 5,
+                    name: "High Pressure Water Washer Spray",
+                    category: "Power Tools",
+                    price: 450,
+                    owner: "Abdul Wahab",
+                    location: "Gulshan Block 4",
+                    image: "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=400",
+                    desc: "Extremely high pressure water washer. Perfect for patio dirt removal, deep car cleaning, or gate restoration jobs.",
+                    available: true
+                },
+                {
+                    id: 6,
+                    name: "Gas Powered Rotary Lawnmower",
+                    category: "Gardening & Yard",
+                    price: 600,
+                    owner: "Abdullah",
+                    location: "Gulshan Block 5",
+                    image: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400",
+                    desc: "Strong gas lawnmower. Fuel tank is empty by default, please purchase fuel according to your yard length needs.",
+                    available: false
+                }
+            ],
+            bookings: [
+                {
+                    id: 101,
+                    toolName: "12-Foot Extendable Aluminum Ladder",
+                    category: "Ladders & Painting",
+                    price: 150,
+                    owner: "Muhammad Sami",
+                    days: 2,
+                    status: "Active",
+                    image: "https://images.unsplash.com/photo-1601058268499-e52658b8bb88?w=400",
+                    due: "Today, 8 PM"
+                }
+            ],
+            chats: {
+                'Muneeba': [
+                    { sender: 'them', text: 'Salam! Yes, the Bosch Drill is completely available.' },
+                    { sender: 'me', text: 'Walaykum Salam! That is perfect. Can I pick it up tomorrow afternoon?' },
+                    { sender: 'them', text: 'Where should we meet for the pickup?' }
+                ],
+                'Sami': [
+                    { sender: 'them', text: 'The socket wrench is all set, ready whenever you are.' }
+                ]
+            },
+            currentActiveChat: 'Muneeba',
+            selectedToolForBooking: null,
+            modalSelectedDays: 1
+        };
+
+        function navigateTo(pageName) {
+            APP_STATE.activePage = pageName;
+
+            // Hide all pages
+            document.querySelectorAll('main > section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show active page
+            const targetPage = document.getElementById(`page-${pageName}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            // Update Header links visual styles
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.className = "px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-primary hover:bg-slate-50 transition flex items-center gap-2";
+            });
+            const activeBtn = document.getElementById(`nav-${pageName}`);
+            if (activeBtn) {
+                activeBtn.className = "px-4 py-2 rounded-xl text-sm font-semibold text-primary bg-teal-50/70 transition flex items-center gap-2";
+            }
+
+            // Trigger structural rendering based on page
+            if (pageName === 'browse') {
+                renderToolsGrid(APP_STATE.tools);
+            } else if (pageName === 'dashboard') {
+                renderDashboardPanels();
+            } else if (pageName === 'chat') {
+                renderChatLogs();
+            } else if (pageName === 'list') {
+                updateLivePreview();
+            }
+        }
+
+        function triggerToast(text, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toastId = "toast_" + Date.now();
+            
+            let colorClasses = "bg-white border-emerald-100 text-slate-800 shadow-md";
+            let iconMarkup = '<i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>';
+
+            if (type === "warning") {
+                colorClasses = "bg-white border-amber-100 text-slate-800 shadow-md";
+                iconMarkup = '<i class="fa-solid fa-triangle-exclamation text-amber-500 text-lg"></i>';
+            }
+
+            const markup = `
+                <div id="${toastId}" class="flex items-start gap-3 p-4 rounded-2xl border ${colorClasses} pointer-events-auto transform translate-y-4 opacity-0 transition-all duration-300">
+                    <div class="flex-shrink-0 mt-0.5">${iconMarkup}</div>
+                    <div class="flex-grow">
+                        <p class="text-xs font-semibold text-slate-800 leading-normal">${text}</p>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', markup);
+            const element = document.getElementById(toastId);
+
+            // Trigger animation frame entry
+            setTimeout(() => {
+                element.classList.remove('translate-y-4', 'opacity-0');
+            }, 50);
+
+            // Handle removal transition
+            setTimeout(() => {
+                element.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => {
+                    element.remove();
+                }, 300);
+            }, 3800);
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('tool-search').value.toLowerCase();
+            const category = document.getElementById('filter-category').value;
+            const availability = document.getElementById('filter-availability').value;
+
+            const results = APP_STATE.tools.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                const matchesCat = (category === 'All') || (item.category === category);
+                
+                let matchesAvail = true;
+                if (availability === 'Available') {
+                    matchesAvail = item.available;
+                } else if (availability === 'Free') {
+                    matchesAvail = item.price === 0;
+                }
+
+                return matchesSearch && matchesCat && matchesAvail;
+            });
+
+            renderToolsGrid(results);
+        }
+
+        function renderToolsGrid(itemsList) {
+            const grid = document.getElementById('tools-grid-list');
+            grid.innerHTML = '';
+
+            if (itemsList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center space-y-3">
+                        <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400 text-xl">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                        <h4 class="font-extrabold text-slate-700">No matching tools found</h4>
+                        <p class="text-xs text-slate-400">Try removing categories or searching for alternative names.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            itemsList.forEach(tool => {
+                const availBadge = tool.available 
+                    ? '<span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Available</span>' 
+                    : '<span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-md">Reserved</span>';
+
+                const priceBadge = tool.price === 0 
+                    ? '<span class="text-sm font-black text-emerald-600">FREE Share</span>' 
+                    : `<span class="text-sm font-extrabold text-slate-950">PKR ${tool.price}</span><span class="text-[10px] text-slate-400"> / day</span>`;
+
+                const btnMarkup = tool.available 
+                    ? `<button onclick="openBookingModal(${tool.id})" class="bg-primary hover:bg-primarydark text-white font-bold px-4 py-2 rounded-xl text-xs transition">Borrow</button>` 
+                    : `<button disabled class="bg-slate-100 text-slate-400 font-bold px-4 py-2 rounded-xl text-xs cursor-not-allowed">Unavailable</button>`;
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden flex flex-col hover:shadow-xs transition duration-150">
+                        <div class="h-44 bg-slate-100 bg-cover bg-center" style="background-image: url('${tool.image}')"></div>
+                        <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between items-center gap-2">
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase">${tool.category}</span>
+                                    ${availBadge}
+                                </div>
+                                <h3 class="font-extrabold text-slate-900 text-base leading-tight">${tool.name}</h3>
+                                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${tool.desc}</p>
+                            </div>
+                            <div class="pt-3 border-t border-slate-50 space-y-3">
+                                <div class="flex justify-between items-center text-[11px] text-slate-500">
+                                    <span><i class="fa-solid fa-user text-slate-400 mr-1"></i> ${tool.owner}</span>
+                                    <span><i class="fa-solid fa-location-dot text-teal-600 mr-1"></i> ${tool.location}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>${priceBadge}</div>
+                                    ${btnMarkup}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateLivePreview() {
+            const name = document.getElementById('form-tool-name').value || 'My Tool Name';
+            const category = document.getElementById('form-tool-category').value;
+            const priceVal = parseInt(document.getElementById('form-tool-price').value);
+            const location = document.getElementById('form-tool-location').value || 'Local Area';
+            const imageUrl = document.getElementById('form-tool-image').value;
+            const desc = document.getElementById('form-tool-desc').value || 'Enter a short summary or special usage instructions here to help neighbors use the device safely.';
+
+            const priceLabel = isNaN(priceVal) || priceVal === 0 
+                ? '<span class="text-sm font-black text-emerald-600">FREE Share</span>' 
+                : `<span class="text-sm font-extrabold text-slate-950">PKR ${priceVal}</span><span class="text-[10px] text-slate-400"> / day</span>`;
+
+            const container = document.getElementById('live-preview-container');
+            container.innerHTML = `
+                <div class="bg-white rounded-2xl overflow-hidden flex flex-col">
+                    <div class="h-40 bg-slate-200 bg-cover bg-center" style="background-image: url('${imageUrl}')"></div>
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <div class="space-y-1">
+                            <span class="bg-slate-100 text-slate-600 text-[9px] font-bold px-2 py-0.5 rounded uppercase">${category}</span>
+                            <h3 class="font-extrabold text-slate-900 text-sm leading-tight">${name}</h3>
+                            <p class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${desc}</p>
+                        </div>
+                        <div class="pt-2 border-t border-slate-50">
+                            <div class="flex justify-between items-center text-[10px] text-slate-400 pb-2">
+                                <span><i class="fa-solid fa-user text-slate-300 mr-1"></i> You</span>
+                                <span><i class="fa-solid fa-location-dot text-teal-600 mr-1"></i> ${location}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>${priceLabel}</div>
+                                <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createNewListing(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('form-tool-name').value;
+            const category = document.getElementById('form-tool-category').value;
+            const price = parseInt(document.getElementById('form-tool-price').value) || 0;
+            const location = document.getElementById('form-tool-location').value;
+            const image = document.getElementById('form-tool-image').value;
+            const desc = document.getElementById('form-tool-desc').value;
+
+            const newTool = {
+                id: APP_STATE.tools.length + 1,
+                name: name,
+                category: category,
+                price: price,
+                owner: 'You (' + APP_STATE.currentUser.name + ')',
+                location: location,
+                image: image,
+                desc: desc,
+                available: true
+            };
+
+            // Inject into data store
+            APP_STATE.tools.unshift(newTool);
+            document.getElementById('listing-form').reset();
+            
+            // Increment UI stats count indicator
+            document.getElementById('stat-tools-count').innerText = APP_STATE.tools.length;
+
+            triggerToast(`"${name}" was successfully listed for the community!`);
+            navigateTo('browse');
+        }
+
+        function openBookingModal(toolId) {
+            const tool = APP_STATE.tools.find(item => item.id === toolId);
+            if (!tool) return;
+
+            APP_STATE.selectedToolForBooking = tool;
+            APP_STATE.modalSelectedDays = 1;
+
+            document.getElementById('modal-title').innerText = tool.name;
+            document.getElementById('modal-category').innerText = tool.category;
+            document.getElementById('modal-owner').innerText = tool.owner;
+            document.getElementById('modal-location').innerText = tool.location;
+            document.getElementById('modal-desc').innerText = tool.desc;
+            document.getElementById('modal-image').style.backgroundImage = `url('${tool.image}')`;
+            
+            document.getElementById('modal-days-count').innerText = "1";
+            updateModalPriceCalculation();
+
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('modal-content').classList.remove('scale-95');
+            }, 50);
+        }
+
+        function closeBookingModal() {
+            document.getElementById('modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                document.getElementById('booking-modal').classList.add('hidden');
+            }, 150);
+        }
+
+        function changeModalDays(amt) {
+            let nextDays = APP_STATE.modalSelectedDays + amt;
+            if (nextDays < 1) nextDays = 1;
+            if (nextDays > 14) {
+                triggerToast("Rentals are limited to 14 consecutive days.", "warning");
+                return;
+            }
+            APP_STATE.modalSelectedDays = nextDays;
+            document.getElementById('modal-days-count').innerText = nextDays;
+            updateModalPriceCalculation();
+        }
+
+        function updateModalPriceCalculation() {
+            const tool = APP_STATE.selectedToolForBooking;
+            if (!tool) return;
+
+            const total = tool.price * APP_STATE.modalSelectedDays;
+            const priceText = total === 0 ? "FREE Share" : `PKR ${total}`;
+            document.getElementById('modal-total-price').innerText = priceText;
+        }
+
+        function executeBorrow() {
+            const tool = APP_STATE.selectedToolForBooking;
+            if (!tool) return;
+
+            // Set reservation status on original tool
+            tool.available = false;
+
+            // Append record to local booking lists
+            const newBooking = {
+                id: Date.now(),
+                toolName: tool.name,
+                category: tool.category,
+                price: tool.price,
+                owner: tool.owner,
+                days: APP_STATE.modalSelectedDays,
+                status: "Pending Pick Up",
+                image: tool.image,
+                due: `Pickup scheduled next 24 hours`
+            };
+
+            APP_STATE.bookings.unshift(newBooking);
+
+            // Display activity notifications badge on Desktop navbar
+            document.getElementById('booking-notif-dot').classList.remove('hidden');
+
+            closeBookingModal();
+            triggerToast(`Success! Reservation requested. A chat session has been generated to align pick-up with ${tool.owner}.`);
+            navigateTo('dashboard');
+        }
+
+        function renderDashboardPanels() {
+            // Render active borrow list
+            const borrowList = document.getElementById('borrowed-items-list');
+            borrowList.innerHTML = '';
+            document.getElementById('borrow-count').innerText = `${APP_STATE.bookings.length} Registered`;
+
+            if (APP_STATE.bookings.length === 0) {
+                borrowList.innerHTML = `
+                    <div class="p-8 text-center text-slate-400 text-xs">
+                        No active borrowed tools currently.
+                    </div>
+                `;
+            } else {
+                APP_STATE.bookings.forEach(booking => {
+                    const statusClass = booking.status === "Active" 
+                        ? "bg-amber-100 text-amber-800" 
+                        : "bg-teal-100 text-teal-800";
+
+                    borrowList.innerHTML += `
+                        <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-xl bg-slate-100 bg-cover bg-center flex-shrink-0" style="background-image: url('${booking.image}')"></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">${booking.toolName}</h4>
+                                    <p class="text-xs text-slate-500">Lended by ${booking.owner} &bull; ${booking.days} Day Window</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between sm:justify-end gap-6">
+                                <div class="text-left sm:text-right">
+                                    <span class="${statusClass} text-[10px] font-bold px-2.5 py-1 rounded-full">${booking.status}</span>
+                                    <p class="text-[10px] text-slate-400 mt-1">${booking.due}</p>
+                                </div>
+                                <button onclick="openChatWithUser('${booking.owner}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-comments"></i> Chat Owner
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Render tools lended out by current user
+            const lendedList = document.getElementById('lending-items-list');
+            lendedList.innerHTML = '';
+
+            const myTools = APP_STATE.tools.filter(t => t.owner.includes('You'));
+            document.getElementById('lend-count').innerText = `${myTools.length} Listed`;
+
+            if (myTools.length === 0) {
+                lendedList.innerHTML = `
+                    <div class="p-8 text-center text-slate-400 text-xs">
+                        You haven't listed any tools yet. Share something from your garage!
+                    </div>
+                `;
+            } else {
+                myTools.forEach(tool => {
+                    const statText = tool.available ? "Idle / Listed" : "Borrowed by Neighbor";
+                    const statClass = tool.available ? "bg-slate-100 text-slate-600" : "bg-emerald-100 text-emerald-800";
+
+                    lendedList.innerHTML += `
+                        <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-xl bg-slate-100 bg-cover bg-center flex-shrink-0" style="background-image: url('${tool.image}')"></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">${tool.name}</h4>
+                                    <p class="text-xs text-slate-500">${tool.category} &bull; PKR ${tool.price}/day</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between sm:justify-end gap-4">
+                                <span class="${statClass} text-[10px] font-bold px-2.5 py-1 rounded-full">${statText}</span>
+                                <button onclick="removeToolListing(${tool.id})" class="text-red-500 hover:bg-red-50 p-2.5 rounded-xl transition text-xs" title="Remove listing">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function removeToolListing(id) {
+            const index = APP_STATE.tools.findIndex(t => t.id === id);
+            if (index > -1) {
+                const name = APP_STATE.tools[index].name;
+                APP_STATE.tools.splice(index, 1);
+                
+                // Update UI counters
+                document.getElementById('stat-tools-count').innerText = APP_STATE.tools.length;
+                
+                triggerToast(`"${name}" listing has been successfully taken down.`);
+                renderDashboardPanels();
+            }
+        }
+
+        function openChatWithUser(ownerName) {
+            let key = "Muneeba";
+            if (ownerName.includes("Sami")) {
+                key = "Sami";
+            }
+            navigateTo('chat');
+            setActiveChat(key);
+        }
+
+        function setActiveChat(userKey) {
+            APP_STATE.currentActiveChat = userKey;
+            
+            // Adjust header display details
+            const nameEl = document.getElementById('chat-header-name');
+            const avatarEl = document.getElementById('chat-header-avatar');
+
+            if (userKey === "Muneeba") {
+                nameEl.innerText = "Muneeba Umar";
+                avatarEl.innerText = "MU";
+                avatarEl.className = "w-10 h-10 rounded-full bg-purple-100 text-purple-700 font-extrabold flex items-center justify-center text-sm";
+            } else {
+                nameEl.innerText = "Muhammad Sami";
+                avatarEl.innerText = "MS";
+                avatarEl.className = "w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-sm";
+            }
+
+            // Adjust backgrounds inside sidebar listing items
+            document.querySelectorAll('#page-chat button').forEach(btn => {
+                btn.classList.remove('bg-teal-50/30');
+            });
+
+            renderChatLogs();
+        }
+
+        function renderChatLogs() {
+            const container = document.getElementById('chat-messages-container');
+            container.innerHTML = '';
+
+            const logs = APP_STATE.chats[APP_STATE.currentActiveChat] || [];
+            
+            logs.forEach(msg => {
+                if (msg.sender === 'me') {
+                    container.innerHTML += `
+                        <div class="flex justify-end">
+                            <div class="bg-primary text-white text-xs font-semibold max-w-sm px-4 py-2.5 rounded-2xl rounded-tr-none shadow-xs">
+                                ${msg.text}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="flex justify-start">
+                            <div class="bg-white border border-slate-100 text-slate-800 text-xs font-semibold max-w-sm px-4 py-2.5 rounded-2xl rounded-tl-none shadow-xs">
+                                ${msg.text}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            // Smoothly scroll down to bottom inside chat frames
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 50);
+        }
+
+        function submitChatMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Log messages to state arrays
+            APP_STATE.chats[APP_STATE.currentActiveChat].push({
+                sender: 'me',
+                text: text
+            });
+
+            input.value = '';
+            renderChatLogs();
+
+            // Simulate automated local host responses after delay
+            setTimeout(() => {
+                let responseText = "Sure, that works perfectly. See you soon near the Central Mosque block!";
+                if (APP_STATE.currentActiveChat === 'Sami') {
+                    responseText = "Perfect! Let me know when you arrive outside Gulshan Gate 3.";
+                }
+
+                APP_STATE.chats[APP_STATE.currentActiveChat].push({
+                    sender: 'them',
+                    text: responseText
+                });
+                renderChatLogs();
+                triggerToast("New message from neighbor", "success");
+            }, 1200);
+        }
+
+        window.onload = function() {
+            navigateTo('home');
+        };
+    </script>
+</body>
+</html>
